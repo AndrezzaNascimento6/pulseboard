@@ -12,4 +12,6 @@ obj/
 
 *.log
 .DS_Store
-.vscode/
+.vscode/Pulseboard-client-backup/
+
+/Pulseboard-client-backup/
