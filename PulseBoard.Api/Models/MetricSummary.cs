@@ -1,10 +1,9 @@
-using System;
+namespace PulseBoard.Api.Models;
 
-namespace PulseBoard.Api.Models
+public class MetricSummary
 {
-    public class MetricSummary
-    {
-        public string Name { get; set; } = string.Empty;
-        public double Value { get; set; }
-    }
+    public int ActiveUsers { get; set; }
+    public double ConversionRate { get; set; }
+    public decimal Revenue { get; set; }
+    public int PageViews { get; set; }
 }
