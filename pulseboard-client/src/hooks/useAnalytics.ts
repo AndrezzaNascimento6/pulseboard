@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getDashboardData } from '../services/analyticsService'
 import type { DashboardResponse } from '../types/analytics'
 
@@ -7,24 +7,31 @@ export function useAnalytics() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    async function loadDashboardData() {
-      try {
-        const dashboardData = await getDashboardData()
-        setData(dashboardData)
-      } catch {
-        setError('Could not load dashboard data.')
-      } finally {
-        setIsLoading(false)
-      }
+  const load = useCallback(async () => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const dashboardData = await getDashboardData()
+      setData(dashboardData)
+    } catch {
+      setError('Could not load dashboard data.')
+    } finally {
+      setIsLoading(false)
     }
-
-    loadDashboardData()
   }, [])
+
+  useEffect(() => {
+    load()
+  }, [load])
+
+  const refetch = useCallback(() => {
+    load()
+  }, [load])
 
   return {
     data,
     isLoading,
     error,
+    refetch,
   }
 }
